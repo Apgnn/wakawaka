@@ -67,8 +67,8 @@ def lambda_handler(event, context):
     try:
         with conn.cursor() as cur:
             for item in items:
-                product_id = item['product_id']
-                quantity = item['quantity']
+                product_id = item.get('product_id') or item.get('productId')
+                quantity = int(item.get('quantity', 0))
 
                 # Pessimistic lock - FOR UPDATE
                 cur.execute(
